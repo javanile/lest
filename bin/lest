@@ -1,0 +1,69 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Lest
+ *
+ * Legacy Code Testing Framework
+ *
+ * Copyright (c) 2020 Francesco Bianco <bianco@javanile.org>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../autoload.php')) {
+    require_once __DIR__ . '/../autoload.php';
+} else {
+    require_once __DIR__ . '/../../autoload.php';
+}
+
+use Javanile\VtigerCli\App;
+use Javanile\VtigerCli\Output;
+
+$app = new App(getcwd());
+
+$app->command('init', [$app, 'init']);
+$app->command('info', [$app, 'info']);
+
+$app->command('apply [Callable]', [$app, 'apply']);
+$app->command('addEntityMethod [Module] [Callable]', [$app, 'addEntityMethod']);
+$app->command('install', [$app, 'install']);
+
+$app->command('setPassword [Username] [Password]', [$app, 'setPassword']);
+
+$app->command('export [File]', [$app, 'export']);
+$app->command('exportDatabase [File]', [$app, 'exportDatabase']);
+$app->command('exportStorage [File]', [$app, 'exportStorage']);
+$app->command('import [File]', [$app, 'import']);
+$app->command('importDatabase [File]', [$app, 'importDatabase']);
+$app->command('importStorage [File]', [$app, 'importStorage']);
+
+$app->command('permissions [--fix]', [$app, 'permissions']);
+$app->command('console', [$app, 'console']);
+
+$app->command('client [operation] [args]*', [$app, 'client']);
+
+try {
+    $app->run(null, new Output);
+} catch (\Exception $error) {
+    echo 'Fatal error: '.$error->getMessage()."\n";
+}
+
+
