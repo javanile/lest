@@ -34,36 +34,16 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../../autoload.php';
 }
 
-use Javanile\VtigerCli\App;
-use Javanile\VtigerCli\Output;
+use Javanile\Lest\App;
+use Javanile\Lest\Output;
 
 $app = new App(getcwd());
 
-$app->command('init', [$app, 'init']);
-$app->command('info', [$app, 'info']);
-
-$app->command('apply [Callable]', [$app, 'apply']);
-$app->command('addEntityMethod [Module] [Callable]', [$app, 'addEntityMethod']);
-$app->command('install', [$app, 'install']);
-
-$app->command('setPassword [Username] [Password]', [$app, 'setPassword']);
-
-$app->command('export [File]', [$app, 'export']);
-$app->command('exportDatabase [File]', [$app, 'exportDatabase']);
-$app->command('exportStorage [File]', [$app, 'exportStorage']);
-$app->command('import [File]', [$app, 'import']);
-$app->command('importDatabase [File]', [$app, 'importDatabase']);
-$app->command('importStorage [File]', [$app, 'importStorage']);
-
-$app->command('permissions [--fix]', [$app, 'permissions']);
-$app->command('console', [$app, 'console']);
-
-$app->command('client [operation] [args]*', [$app, 'client']);
+$app->command('test', [$app, 'test']);
+$app->setDefaultCommand('test');
 
 try {
     $app->run(null, new Output);
 } catch (\Exception $error) {
     echo 'Fatal error: '.$error->getMessage()."\n";
 }
-
-
