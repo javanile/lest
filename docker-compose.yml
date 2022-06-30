@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  lest:
+    build: .
+    volumes:
+      - ./:/app
+
+  ## Vtiger
+  test-vtiger:
+    image: javanile/vtiger:7.1.0
+    environment:
+      - MYSQL_HOST=test-vtiger-database
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - ./:/app/lest
+      - ./tests/fixtures/vtiger-tests:/app/tests
+  test-vtiger-database:
+    image: javanile/mysql:5.7.28
+    environment:
+      - MYSQL_DATABASE=vtiger
+      - MYSQL_ROOT_PASSWORD=secret
